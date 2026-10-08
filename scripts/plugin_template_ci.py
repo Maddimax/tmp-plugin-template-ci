@@ -178,6 +178,8 @@ def run_steps(args):
 
         def substitute(m):
             key = m.group(1).strip()
+            if key.startswith("matrix.config.") and key not in context:
+                return ""  # Unset matrix values evaluate to an empty string
             if key not in context:
                 sys.exit(f'Unknown expression "${{{{ {key} }}}}" in step "{name}"')
             return context[key]
